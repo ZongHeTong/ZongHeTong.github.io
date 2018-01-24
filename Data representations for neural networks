@@ -1,0 +1,27 @@
+display the number of axes of a Numpy tensor via the ndim attribute; a scalar tensor has 0 axes (ndim == 0). 
+The number of axes of a tensor is also called its rank. 
+
+Scalars (0D tensors) ：A tensor that contains only one number is called a scalar (or scalar tensor, or 0-dimensional tensor, or 0D tensor).
+>>> import numpy as np
+>>> x = np.array(12)
+>>> x
+array(12)
+>>> x.ndim
+0
+
+Vectors (1D tensors) ：An array of numbers is called a vector, or 1D tensor. 
+>>> x = np.array([12, 3, 6, 14])
+>>> x
+array([12, 3, 6, 14])
+>>> x.ndim
+1
+
+Matrices (2D tensors)  ： An array of vectors is a matrix, or 2D tensor.A matrix has two axes (often referred to rows and columns).
+>>> x = np.array([[5, 78, 2, 34, 0],
+                  [6, 79, 3, 35, 1],
+                  [7, 80, 4, 36, 2]])
+>>> x.ndim
+2
+
+3D tensors and higher-dimensional tensors ： pack such matrices in a new array, you obtain a 3D tensor, 
+which you can visually interpret as a cube of numbers.
