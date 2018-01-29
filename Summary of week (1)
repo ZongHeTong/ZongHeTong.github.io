@@ -1,0 +1,46 @@
+   This week from january 23 to january 29.
+   In this week, I primary read a book that named <Deep Learning with Python>.Read chapter 1 and chapter 2 about this book.
+The two chapter are main said fundamentals of deep learning.
+   From chapter 1, I know what is deep learing and machine learing. At machine learning the learning is mean: searching for 
+useful representations of some input data, within a predefined space of possibilities, using guidance from a feedback signal, 
+while at deep learning the learning is mean : finding a set of values for the weights of all layers in a network, such that
+the network will correctly map example inputs to their associated targets.
+   All machine-learning algorithms consist of automatically finding such transformations that turn data into more-useful 
+representations for a given task. Deep learning is a specific subfield of machine learning: a new take on learning representations 
+from data that puts an emphasis on learning successive layers of increasingly meaningful representations.
+    The chapter 2 is main said tensors and tensor operation of neural networks, while put a example of neural network.A tensor 
+is a container for data—almost always numerical data. So, it’s a container for numbers.It contain Scalars (0D tensors)、Vectors (1D tensors) 
+Matrices (2D tensors) 、3D tensors and higher-dimensional tensors. Tensor operation of neural network is include  Element-wise operations、
+Broadcasting 、Tensor dot and Tensor reshaping.
+    A concrete example of a neural network that uses the Python library Keras to learn to classify handwritten digits.It's trying to solve
+classify grayscale images of handwritten digits (28 × 28 pixels) into their 10 categories (0 through 9). And use the MNIST dataset. The
+code is follow:
+   
+import keras
+from keras.datasets import mnist
+from keras.layers import Conv2D, MaxPool2D, Dense,Flatten
+from keras.models import Sequential
+(x_train, y_train), (x_test, y_test) = mnist.load_data()
+
+#处理数据，让数据shape是（28， 28， 1）
+#然后label做一个one-hot encoding处理，比如类别是3，那么变成[0, 0, 1 ,0, 0, 0, 0, 0, 0, 0]
+x_train = x_train.reshape(-1, 28, 28, 1)
+x_test = x_test.reshape(-1, 28, 28,1)
+x_train = x_train / 255.
+x_test = x_test / 255.
+y_train = keras.utils.to_categorical(y_train)
+y_test = keras.utils.to_categorical(y_test)
+
+#构建lenet
+lenet = Sequential()   #为序列模型
+lenet.add(Conv2D(6, kernel_size = 3, strides = 1, padding= 'same',input_shape = (28,28,1)))
+lenet.add(MaxPool2D(pool_size = 2, strides = 2))
+lenet.add(Conv2D(16, kernel_size = 5, strides = 1, padding = 'valid'))
+lenet.add(MaxPool2D(pool_size = 2, strides = 2))
+lenet.add(Flatten())            #铺平，将多维变成一维
+lenet.add(Dense(120))           #全连接层
+lenet.add(Dense(82))
+lenet.add(Dense(10, activation = 'softmax'))
+
+lenet.compile('sgd', loss = 'categorical_crossentropy', metrics = ['accuracy'])
+lenet.fit(x_train, y_train, batch_size = 64, epochs = 10, validation_data = [x_test,y_test])
